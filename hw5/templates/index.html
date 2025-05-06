@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>狗狗健康分析</title>
+</head>
+<body>
+    <h1>🐶 多代理狗狗健康分析</h1>
+    <form action="/analyze" method="post">
+        <textarea name="diary" rows="10" cols="50" placeholder="請輸入狗狗的健康日記...">{{ diary or '' }}</textarea><br>
+        <button type="submit">分析日記</button>
+    </form>
+
+    {% if analysis %}
+        <h2>分析結果：</h2>
+        <div style="white-space: pre-wrap;">{{ analysis|safe }}</div>
+    {% endif %}
+</body>
+</html>
