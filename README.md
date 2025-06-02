@@ -18,4 +18,4 @@
 
 第二次專題進度連結：https://youtu.be/xwxcPQpGPVk
 
-期末專題報告：
+期末專題報告：https://youtu.be/P50Da2Falo4
