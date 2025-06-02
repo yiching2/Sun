@@ -11,3 +11,7 @@
 ## HW4：
 ## HW5：
 <img width="477" alt="截圖 2025-05-07 上午2 52 11" src="https://github.com/user-attachments/assets/97ded597-1a1d-4ccb-825d-827918058ad7" />
+## Fina Project
+第一次專題進度連結：
+第二次專題進度連結：
+期末專題報告：
