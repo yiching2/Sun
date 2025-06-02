@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>健康日記與 Gemini 聊天</title>
+
+  <!-- ✅ 匯入本地字體 -->
+  <style>
+    @font-face {
+      font-family: '沈魚落雁體';
+      src: url("/static/fonts/ChenYuluoyan-Thin-Monospaced.ttf") format("truetype");
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #fdfaf4;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+      min-height: 100%;
+      background-image: url('https://i.imgur.com/3j3xUdz.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .notebook {
+      background: #fffefb;
+      border: 2px dashed #d6bfa9;
+      padding: 40px 30px;
+      border-radius: 18px;
+      box-shadow: 6px 6px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 700px;
+      position: relative;
+    }
+
+    .washi-title {
+      font-family: '沈魚落雁體', cursive;
+      font-size: 32px;
+      text-align: center;
+      background: url('https://i.imgur.com/3FCP8Bi.png') no-repeat center;
+      background-size: contain;
+      padding: 20px;
+      color: #4a3b2b;
+      margin: 0 auto 30px;
+    }
+
+    h2, h3 {
+      font-family: '沈魚落雁體', cursive;
+      text-align: center;
+      color: #6b4c3b;
+    }
+
+    label {
+      font-weight: bold;
+      color: #5c4431;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #d8cfc3;
+      border-radius: 6px;
+      background-color: #fffaf2;
+      resize: vertical;
+      font-size: 14px;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    button {
+      background-color: #d8a48f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 10px;
+      font-family: '沈魚落雁體', cursive;
+    }
+
+    button:hover {
+      background-color: #c38b78;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    ul {
+      list-style: square;
+      padding-left: 20px;
+      color: #5c4431;
+    }
+
+    p {
+      color: #5c4431;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px dashed #d6bfa9;
+      margin: 30px 0;
+    }
+
+    /* ✅ 貼紙裝飾 */
+    .sticker-left, .sticker-right {
+      position: fixed;
+      top: 100px;
+      width: 300px;
+      opacity: 0.85;
+      z-index: 10;
+    }
+
+    .sticker-left {
+      left: 20px;
+    }
+
+    .sticker-right {
+      right: 20px;
+    }
+
+    /* ✅ 建議區塊變便利貼 */
+    .post-it {
+      background: #fff8b3;
+      border: 1px solid #e5d585;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+      font-family: 'Noto Sans TC', sans-serif;
+      margin-top: 20px;
+      transform: rotate(-1.5deg);
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🧸 左右貼紙裝飾 -->
+  <img src="/static/stickers/bear-left.png" class="sticker-left" alt="貼紙左">
+  <img src="/static/stickers/bear-right.png" class="sticker-right" alt="貼紙右">
+
+  <div class="container">
+    <div class="notebook">
+      <div class="washi-title">📝 健康日記分析</div>
+
+      <form method="post">
+        <input type="hidden" name="form_type" value="diary">
+        <div class="section">
+          {% for i in range(questions|length) %}
+            <label>{{ questions[i] }}</label><br>
+            <textarea name="q{{ i }}" rows="2" required>{{ answers[i] if answers else "" }}</textarea><br><br>
+          {% endfor %}
+        </div>
+        <button type="submit">送出分析</button>
+      </form>
+
+      {% if result %}
+        <div class="section">
+          <h2>📊 分析結果</h2>
+          <ul>
+            {% for key, value in result.items() %}
+              <li><strong>{{ key }}：</strong> {{ value }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if advice %}
+        <div class="post-it">
+          <h2>💡 建議</h2>
+          <p>{{ advice }}</p>
+        </div>
+      {% endif %}
+
+      <hr>
+
+      <div class="washi-title">💬 與 Gemini 聊天</div>
+      <form method="post">
+        <input type="hidden" name="form_type" value="chat">
+        <label>輸入你的問題：</label><br>
+        <input type="text" name="user_input" required><br><br>
+        <button type="submit">送出問題</button>
+      </form>
+
+      {% if user_input %}
+        <h3>你問的問題：</h3>
+        <p>{{ user_input }}</p>
+      {% endif %}
+
+      {% if reply_text %}
+        <h3>Gemini 回覆：</h3>
+        <p>{{ reply_text }}</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

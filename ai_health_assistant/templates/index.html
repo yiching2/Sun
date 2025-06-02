@@ -1,0 +1,32 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>健康日記分析</title>
+</head>
+<body>
+    <h1>📝 健康日記填寫</h1>
+    <form method="post">
+        {% for i in range(questions|length) %}
+            <label>{{ questions[i] }}</label><br>
+            <textarea name="q{{ i }}" rows="2" cols="60" required>{{ answers[i] if answers else "" }}</textarea><br><br>
+        {% endfor %}
+        <button type="submit">送出分析</button>
+    </form>
+
+    {% if result %}
+        <h2>📊 分析結果</h2>
+        <ul>
+            {% for key, value in result.items() %}
+                <li><strong>{{ key }}：</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if advice %}
+        <h2>💡 建議</h2>
+        <p>{{ advice }}</p>
+    {% endif %}
+</body>
+</html>
