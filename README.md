@@ -14,8 +14,8 @@
 
 ## Fina Project
 
-第一次專題進度連結：
+第一次專題進度連結：https://youtu.be/xj8zkv2SrMI
 
-第二次專題進度連結：
+第二次專題進度連結：https://youtu.be/xwxcPQpGPVk
 
 期末專題報告：
